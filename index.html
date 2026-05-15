@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mercedes-Benz G500 Showcase</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='none' stroke='%23ffffff' stroke-width='8'/%3E%3Cpath d='M 50 6 L 56 46 L 90 71 L 50 58 L 10 71 L 44 46 Z' fill='%23ffffff'/%3E%3C/svg%3E" />
+
+    <link rel="stylesheet" href="./style.css">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mercedes-Benz G500 Showcase</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="loading-screen">
+  <div class="loader-bg"></div>
+
+  <div id="loading-percentage">0%</div>
+
+  <div class="loader-car-track">
+    <div class="loader-car-container">
+      <div class="dirt-particles">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="css-viper">
+        <div class="vp-spoiler"></div>
+        <div class="vp-top"></div>
+        <div class="vp-bottom"></div>
+        <div class="vp-wheel back"></div>
+        <div class="vp-wheel front"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<canvas id="webgl-canvas"></canvas>
+<div class="scroll-track"></div>
+
+<div class="content-overlay">
+  <section class="feature-text" id="feature-1">
+    <h2>PERFORMANCE UTILITY</h2>
+    <p>A "perfect" daily driver offering a comfortable ride in "Comfort" mode while remaining capable of spirited performance in "Sport+".</p>
+  </section>
+
+  <section class="feature-text" id="feature-2">
+    <h2>F1-DERIVED TECHNOLOGY</h2>
+    <p>Electric exhaust-gas turbocharger technology virtually eliminates turbo lag, providing instant throttle response.</p>
+  </section>
+
+  <section class="feature-text" id="feature-3">
+    <h2>SIGNATURE EXHAUST</h2>
+    <p>A distinctive acoustic signature, engineered to deliver a throaty V8 growl that changes pitch based on the selected drive mode.</p>
+  </section>
+
+  <!-- HUD with explicit IDs mapping to CSS absolute positions -->
+  <div class="specs-hud" id="specs-hud">
+    <div class="spec-item" id="item-engine"><span>ENGINE</span><br>V8 BITURBO</div>
+    <div class="spec-item" id="item-0-100"><span>0-100 KM/H</span><br>4.5 SEC</div>
+    <div class="spec-item" id="item-exhaust"><span>EXHAUST</span><br>VALVETRONIC</div>
+  </div>
+
+  <div class="corner-bracket top-left"></div>
+  <div class="corner-bracket top-right"></div>
+
+  <!-- Pointer 1: Engine (Points exactly to Y: 78%) -->
+  <svg class="tech-pointer" id="engine-pointer" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <!-- Moved forward to hit the hood -->
+    <circle cx="35%" cy="58%" r="12" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+    <circle cx="35%" cy="58%" r="3" fill="#ff0000" />
+    <line x1="35%" y1="58%" x2="75%" y2="77%" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+    <!-- Thick Solid White Line -->
+    <line x1="75%" y1="77%" x2="88%" y2="77%" stroke="#ffffff" stroke-width="3" />
+    <circle cx="75%" cy="77%" r="3" fill="#ffffff" />
+  </svg>
+
+  <!-- Pointer 2: Wheels (Points exactly to Y: 86%) -->
+  <svg class="tech-pointer" id="wheels-pointer" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="34%" cy="75%" r="18" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="4 4"/>
+    <circle cx="34%" cy="75%" r="3" fill="#ff0000" />
+    <circle cx="68%" cy="75%" r="18" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="4 4"/>
+    <circle cx="68%" cy="75%" r="3" fill="#ff0000" />
+
+    <line x1="34%" y1="75%" x2="34%" y2="86%" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+    <line x1="34%" y1="86%" x2="75%" y2="86%" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+    <line x1="68%" y1="75%" x2="68%" y2="86%" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+
+    <!-- Thick Solid White Line -->
+    <line x1="75%" y1="86%" x2="88%" y2="86%" stroke="#ffffff" stroke-width="3" />
+    <circle cx="75%" cy="86%" r="3" fill="#ffffff" />
+  </svg>
+
+  <!-- Pointer 3: Exhaust (Points exactly to Y: 94%) -->
+  <svg class="tech-pointer" id="exhaust-pointer" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <!-- Moved up properly onto the rear-left chassis -->
+    <circle cx="46%" cy="66%" r="12" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+    <circle cx="46%" cy="66%" r="3" fill="#ff0000" />
+    <line x1="46%" y1="66%" x2="46%" y2="94%" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+    <line x1="46%" y1="94%" x2="75%" y2="93%" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+
+    <!-- Thick Solid White Line -->
+    <line x1="75%" y1="93%" x2="88%" y2="93%" stroke="#ffffff" stroke-width="3" />
+    <circle cx="75%" cy="93%" r="3" fill="#ffffff" />
+  </svg>
+</div>
+
+<div class="bg-elements">
+  <div class="line-wing left-wing" id="left-wing"></div>
+  <div class="line-wing right-wing" id="right-wing"></div>
+</div>
+<!-- 4. Background Decorative Elements -->
+<div class="bg-elements">
+  <!-- NEW: The Animated Logo Pattern Layer -->
+  <div class="pattern-bg"></div>
+
+  <div class="line-wing left-wing" id="left-wing"></div>
+  <div class="line-wing right-wing" id="right-wing"></div>
+</div>
+<div class="reveal-mask">
+  <div class="triangle-top-left" id="tri-top">
+    <div class="logo-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="merc-logo">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#ffffff" stroke-width="2"/>
+        <path d="M50 4 L53 47 L94 65 L50 53 L6 65 L47 47 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+  </div>
+  <div class="triangle-bottom-right" id="tri-bottom">
+    <div class="logo-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="merc-logo">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#ffffff" stroke-width="2"/>
+        <path d="M50 4 L53 47 L94 65 L50 53 L6 65 L47 47 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+  </div>
+  <section class="final-title" id="final-text">
+    <h1>Mercedes-Benz<br>G500 (2018)</h1>
+  </section>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
